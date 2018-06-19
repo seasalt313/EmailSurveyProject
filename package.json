@@ -10,7 +10,7 @@
 	"scripts": {
 		"start": "node index.js"
 	},
-	"author": "",
+	"author": "Mariam Qasim",
 	"license": "ISC",
 	"dependencies": {
 		"express": "^4.16.3"

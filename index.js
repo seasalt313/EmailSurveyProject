@@ -2,7 +2,7 @@ const express = require('express'); //common js vs es2015 module style
 const app = express();
 
 app.get('/', (req, res) => {
-	res.send({ hi: 'there' });
+	res.send({ hi: 'maple' });
 });
 
 //dynamic port binding

@@ -1,6 +1,7 @@
 const express = require('express'); //Commonjs vs es2015 module style (which would use import statement)
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
+require('./models/User');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);

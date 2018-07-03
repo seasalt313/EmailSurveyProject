@@ -5,6 +5,16 @@ const keys = require('../config/keys');
 
 const User = mongoose.model('users');
 
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+	User.findById(id).then(user => {
+		done(null, user);
+	});
+});
+
 //Creates a new instance of the google passport strategy - GoogleStrategy is built in with an internal identifier with google
 passport.use(
 	new GoogleStrategy(
@@ -14,14 +24,19 @@ passport.use(
 			callbackURL: '/auth/google/callback'
 		},
 		(accessToken, refreshToken, profile, done) => {
-			console.log('accessToken: ===================== ', accessToken);
-			console.log('refresh token: ===================== ', refreshToken);
-			console.log('profile: =====================', profile);
-
-			new User({
-				googleId: profile.id,
-				name: 'Mariam'
-			}).save();
+			User.findOne({ googleId: profile.id }).then(existingUser => {
+				if (existingUser) {
+					//we already have a record with the given profile ID
+					done(null, existingUser);
+				} else {
+					//we dont have a user record with this ID - it returned as null- , make a new record
+					new User({
+						googleId: profile.id
+					})
+						.save()
+						.then(user => done(null, user));
+				}
+			});
 		}
 	)
 );

@@ -22,4 +22,3 @@ yarn-error.log*
 
 # stripe public key
 .env.development
-.env.production
